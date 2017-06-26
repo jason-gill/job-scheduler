@@ -21,8 +21,9 @@ namespace Console.Jobs
             if (_count == 2)
             {
                 System.Console.WriteLine("Job executed successfully!");
-                var stopExecuting = new JobExecutionException {UnscheduleAllTriggers = true};
-                throw stopExecuting;
+                context.Scheduler.DeleteJob(context.JobDetail.Key);
+//                var stopExecuting = new JobExecutionException {UnscheduleAllTriggers = true};
+//                throw stopExecuting;
             }
 
             if (isLastExecution)
