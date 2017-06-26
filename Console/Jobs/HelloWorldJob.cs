@@ -2,15 +2,14 @@
 
 namespace Console.Jobs
 {
-    public class HelloWorldJob : IJob
+    public class HelloWorldJob : OnSuccessStopJob 
     {
         public const string IdentityId = "IdentityId";
 
         private static int _count;
-        
-        public void Execute(IJobExecutionContext context)
+
+        public override bool Run(IJobExecutionContext context)
         {
-            var isLastExecution = !context.NextFireTimeUtc.HasValue;
             var data = context.JobDetail.JobDataMap;
             var identityId = data.GetIntValue(IdentityId);
 
@@ -21,15 +20,18 @@ namespace Console.Jobs
             if (_count == 2)
             {
                 System.Console.WriteLine("Job executed successfully!");
-                context.Scheduler.DeleteJob(context.JobDetail.Key);
-//                var stopExecuting = new JobExecutionException {UnscheduleAllTriggers = true};
-//                throw stopExecuting;
+                return true;
             }
 
-            if (isLastExecution)
-            {
-                System.Console.WriteLine($"{System.DateTime.Now:r}: Finalizing job with IdenittyId: {identityId}");
-            }
+            return false;
+        }
+
+        public override void LastExecutionWasUnsuccessfulCleanup(IJobExecutionContext context)
+        {
+            var data = context.JobDetail.JobDataMap;
+            var identityId = data.GetIntValue(IdentityId);
+
+            System.Console.WriteLine($"{System.DateTime.Now:r}: Cleaning up job with IdenittyId: {identityId}");
         }
     }
 }
