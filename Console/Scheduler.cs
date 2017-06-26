@@ -9,8 +9,16 @@ namespace Console
  
         private static readonly object SyncLock = new object();
  
-        public static IScheduler GetInstance()
+        public static IScheduler GetInstance(bool forceNewInstance = false)
         {
+            if (forceNewInstance)
+            {
+                ISchedulerFactory sf = new StdSchedulerFactory();
+                _instance = sf.GetScheduler();
+                _instance.Start();
+                return _instance;
+            }
+
             if (_instance == null)
             {
                 lock (SyncLock)

@@ -17,7 +17,7 @@ namespace Console.Jobs
 
             _count++;
             // If job was successful
-            if (_count == 2)
+            if (_count == 4)
             {
                 System.Console.WriteLine("Job executed successfully!");
                 return true;
