@@ -12,8 +12,10 @@ namespace Console
            
             Scheduler.GetInstance();
             
+            var endDateTime = DateTime.Now.AddMinutes(2);
             var job = JobBuilder.Create<HelloWorldJob>()
-                .WithIdentity("myJob", "group1")
+                .WithIdentity(Guid.NewGuid().ToString(), "Retry")
+                .WithRunUntil(endDateTime)
                 .UsingJobData(HelloWorldJob.IdentityId, 7)
                 .Build();
 

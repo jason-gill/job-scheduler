@@ -26,7 +26,7 @@ namespace Console.Jobs
             return false;
         }
 
-        public override void LastExecutionWasUnsuccessfulCleanup(IJobExecutionContext context)
+        public override void AfterAllAtemptsFailedCleanup(IJobExecutionContext context)
         {
             var data = context.JobDetail.JobDataMap;
             var identityId = data.GetIntValue(IdentityId);
