@@ -13,13 +13,13 @@ namespace Console.Jobs
             var data = context.JobDetail.JobDataMap;
             var identityId = data.GetIntValue(IdentityId);
 
-            System.Console.WriteLine($"{System.DateTime.Now:r}: Executing Job with IdentityId: {identityId}");
+            System.Console.WriteLine($"{System.DateTime.Now:r}: Executing Job {context.JobDetail.Key} with IdentityId: {identityId}");
 
             _count++;
             // If job was successful
             if (_count == 4)
             {
-                System.Console.WriteLine("Job executed successfully!");
+                System.Console.WriteLine($"Job {context.JobDetail.Key} executed successfully!");
                 return true;
             }
 
@@ -31,7 +31,7 @@ namespace Console.Jobs
             var data = context.JobDetail.JobDataMap;
             var identityId = data.GetIntValue(IdentityId);
 
-            System.Console.WriteLine($"{System.DateTime.Now:r}: Cleaning up job with IdenittyId: {identityId}");
+            System.Console.WriteLine($"{System.DateTime.Now:r}: Cleaning up job {context.JobDetail.Key} with IdenittyId: {identityId}");
         }
     }
 }
